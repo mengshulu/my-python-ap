@@ -6,6 +6,7 @@ class handler(BaseHTTPRequestHandler):
         # 設置響應頭
         self.send_response(200)
         self.send_header("Content-type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")  # 允許所有來源
         self.end_headers()
 
         # 返回 JSON 數據
