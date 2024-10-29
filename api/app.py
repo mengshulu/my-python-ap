@@ -12,25 +12,25 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("api/", methods=['GET'])
+@app.route("/api", methods=['GET'])
 def home():
     return "<h1>hello world</h1>"
 
-@app.route("api/ok")
+@app.route("/api/ok")
 def ok():
 
     print(request.args)            # 使用 request.args
     return "<h1>ok</h1>"
 
-@app.route("api/yes")
+@app.route("/api/yes")
 def yes():
     return "<h1>yes</h1>"
 
-@app.route("api/fail")
+@app.route("/api/fail")
 def fail():
     return "<h1>fail</h1>"
 
-@app.route("api/hello")
+@app.route("/api/hello")
 def hello():
     response = {"message": "Hello from Python API on Vercel!"}
     return response
