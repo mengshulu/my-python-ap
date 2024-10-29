@@ -8,20 +8,45 @@
 #
 # app.run()                 # 執行
 
-from flask import Flask, request, Blueprint
+import os
+
+from dotenv import load_dotenv
+from pymongo import MongoClient
+from flask import Flask, request, Blueprint, jsonify
 
 app = Flask(__name__)
 api = Blueprint('api', __name__)
+load_dotenv()
+# 連接到 MongoDB
+app.config["MONGO_URI"] = os.getenv("MONGODB_URI")
+client = MongoClient(app.config["MONGO_URI"])
+db = client.sample_mflix  # 獲取 sample_mflix 資料庫
+# print(db.movies.find_one({'title': 'Parasite'}))
 
 @api.route("/", methods=['GET'])
 def home():
-    print("fff")
     return "<h1>hello world</h1>"
+
+@api.route("/movies", methods=['GET'])
+def get_movies():
+    # movie = db.movies.find_one({'title': 'Parasite'})
+    # movie['_id'] = str(movie['_id'])
+
+    # movies = db.movies.find() 一直出現下面的問題
+    # BrokenPipeError: [Errno 32] Broken pipe是一個常見的錯誤，通常出現在伺服器端嘗試向客戶端寫入數據時，而客戶端已經關閉了連接。這種情況在網絡編程中是相對正常的，特別是當客戶端在伺服器完成響應之前就終止了連接。
+    # 推斷應該是因為這個表有 2 萬多筆資料，改成只取 10筆就好了
+
+    movies = db.movies.find().limit(10)  # 從 'movies' 集合中獲取所有文檔
+    movies_list = []
+    for movie in movies:
+        movie['_id'] = str(movie['_id'])  # 將 ObjectId 轉換為字符串
+        movies_list.append(movie)
+    return jsonify(movies_list)
 
 @api.route("/ok")
 def ok():
 
-    print(request.args)            # 使用 request.args
+    # print(request.args)            # 使用 request.args
     return "<h1>ok</h1>"
 
 @api.route("/yes")
@@ -34,7 +59,7 @@ def fail():
 
 @api.route("/hello")
 def hello():
-    print("hello")
+    # print("hello")
     response = {"message": "Hello from Python API on Vercel!"}
     return response
 
