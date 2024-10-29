@@ -12,7 +12,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/", methods=['GET'])
+@app.route("api/", methods=['GET'])
 def home():
     return "<h1>hello world</h1>"
 
@@ -44,4 +44,7 @@ def hello():
 #     return f"<h1>{msg}</h1>"
 
 # app.run()
-app.run()
+# app.run()
+# Vercel 需要的一個 handler 函數
+def handler(event, context):
+    return app(event, context)
