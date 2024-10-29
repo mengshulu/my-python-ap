@@ -60,7 +60,7 @@ def get_movies():
     # # 計算跳過的文檔數
     skip = (page_number - 1) * page_size
 
-    movies = db.movies.find().skip().limit(page_size)  # 從 'movies' 集合中獲取所有文檔
+    movies = db.movies.find().skip(skip).limit(page_size)  # 從 'movies' 集合中獲取所有文檔
     movies_list = []
     for movie in movies:
         movie['_id'] = str(movie['_id'])  # 將 ObjectId 轉換為字符串
