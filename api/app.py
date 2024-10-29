@@ -12,7 +12,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("api/", methods=['GET'])
+@app.route("/", methods=['GET'])
 def home():
     return "<h1>hello world</h1>"
 
@@ -30,7 +30,7 @@ def yes():
 def fail():
     return "<h1>fail</h1>"
 
-@app.route("hello")
+@app.route("/hello")
 def hello():
     response = {"message": "Hello from Python API on Vercel!"}
     return response
