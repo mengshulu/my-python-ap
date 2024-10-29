@@ -8,30 +8,33 @@
 #
 # app.run()                 # 執行
 
-from flask import Flask, request
+from flask import Flask, request, Blueprint
 
 app = Flask(__name__)
+api = Blueprint('api', __name__)
 
-@app.route("/api", methods=['GET'])
+@api.route("/", methods=['GET'])
 def home():
+    print("fff")
     return "<h1>hello world</h1>"
 
-@app.route("/api/ok")
+@api.route("/ok")
 def ok():
 
     print(request.args)            # 使用 request.args
     return "<h1>ok</h1>"
 
-@app.route("/api/yes")
+@api.route("/yes")
 def yes():
     return "<h1>yes</h1>"
 
-@app.route("/api/fail")
+@api.route("/fail")
 def fail():
     return "<h1>fail</h1>"
 
-@app.route("/api/hello")
+@api.route("/hello")
 def hello():
+    print("hello")
     response = {"message": "Hello from Python API on Vercel!"}
     return response
 
@@ -44,7 +47,7 @@ def hello():
 #     return f"<h1>{msg}</h1>"
 
 # app.run()
-# app.run()
-# Vercel 需要的一個 handler 函數
-def handler(event, context):
-    return app(event, context)
+# app.run(host="0.0.0.0", port=5555)
+app.register_blueprint(api, url_prefix='/api')
+if __name__ == "__main__":
+    app.run(debug=True)

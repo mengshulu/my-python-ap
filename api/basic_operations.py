@@ -44,3 +44,5 @@ import datetime
 # # Save the inserted_id of the document you just created:
 # parasite_id = insert_result.inserted_id
 # print("_id of inserted document: {parasite_id}".format(parasite_id=parasite_id))
+def handle():
+    return movies.find_one({'title': 'Parasite'})
