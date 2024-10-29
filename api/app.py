@@ -13,9 +13,16 @@ import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask import Flask, request, Blueprint, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
 api = Blueprint('api', __name__)
+CORS(app, resources={r"/api/*": {
+    "origins": [
+        "https://thunderous-chimera-ad54f4.netlify.app/",
+        "http://127.0.0.1:3005/"
+    ]
+}})
 load_dotenv()
 # 連接到 MongoDB
 app.config["MONGO_URI"] = os.getenv("MONGODB_URI")
