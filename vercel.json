@@ -8,8 +8,12 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/api/hello",
       "dest": "/api/hello.py"
+    },
+    {
+      "src": "/api/mongoDB",
+      "dest": "/api/basic_operations.py"
     }
   ]
 }
